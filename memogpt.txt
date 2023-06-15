@@ -1,0 +1,191 @@
+1つの原文と、それを書き換えた3つの文章を伝えます。
+それぞれの文章が、原文にどの程度近いか100点満点で教えてください。
+
+【原文】The important thing is not to stop questioning.
+
+Don't stop questioning. It's the important thing.       100点
+The important thing is to keep questioning.             100点
+The important thing is to stop questioning.             20点
+What' your name?                                        80点    ←   何かと思ったら、勝手にこれを原文に以下の書き換えを考えて80点にしている。
+                                                                    May I know your name?
+
+
+☆英語かつ1メッセージで設問、もう1メッセージで出題すると、圧倒的に回答がよくなる。
+　Don't stop questioning. It's the important thing. なんか、100点→80点に得点が下がっている。納得だけど。
+　50点あたりが違う文章とだいたい同じ文章の境界線になっていそう。
+　70点あたりを下回ると、文意がちょっと変わっているっぽい。
+
+[設問]
+I will give you one original sentence and some sentences that have been rewritten.
+Please indicate how close each sentence is to the original on a scale of 100.
+
+[出題1]
+original: "The important thing is not to stop questioning."
+rewritten1: "Don't stop questioning. It's the important thing. "
+rewritten2: "The important thing is to keep questioning."
+rewritten3: "The important thing is to stop questioning. "
+rewritten4: "What' your name?"
+
+[回答1]
+Here's the assessment of each rewritten sentence's closeness to the original sentence on a scale of 100:
+
+    "Don't stop questioning. It's the important thing." - 80: This sentence captures the essence of the original sentence but rearranges the wording slightly.
+    The meaning remains intact, although it lacks the same emphasis as the original.
+
+    "The important thing is to keep questioning." - 90: This sentence conveys the core message of the original sentence accurately while rearranging the wording slightly.
+    It maintains the importance of questioning, but the emphasis on not stopping is slightly altered.
+
+    "The important thing is to stop questioning." - 30: This sentence has an opposite meaning to the original sentence.
+    It suggests that stopping questioning is the important thing, which contradicts the original statement.
+
+    "What's your name?" - 0: This sentence is completely unrelated to the original sentence and does not share any similarity with it.
+
+Note: The scores provided are subjective and based on how closely the rewritten sentences convey the original meaning.
+
+
+[出題2]
+rewritten5: "The important thing is not to stop making an effort."
+
+[回答2]
+In regard to the rewritten sentence:
+
+    "The important thing is not to stop making an effort." - 60: This sentence introduces a new concept by replacing "questioning" with "making an effort."
+    While the general idea of not stopping is preserved, the specific focus on questioning in the original sentence is lost.
+    It conveys a similar sentiment about persistence and continuous effort, but it deviates from the original topic.
+
+
+
+☆質問の仕方を英語と同じにして、日本語でメッセージを送ると結果が変わる。
+ 全体的に得点の与え方が甘くなっている感じ。
+
+[設問]
+1つの原文と、それを書き換えた3つの文章を伝えます。
+それぞれの文章が、原文にどの程度近いか100点満点で教えてください。
+
+[質問]
+原文: "The important thing is not to stop questioning."
+書き換え1: "Don't stop questioning. It's the important thing. "
+書き換え2: "The important thing is to keep questioning."
+書き換え3: "The important thing is to stop questioning. "
+書き換え4: "What' your name?"
+
+[回答]
+書き換え1: "Don't stop questioning. It's the important thing."
+類似度: 95/100
+
+書き換え2: "The important thing is to keep questioning."
+類似度: 90/100
+
+書き換え3: "The important thing is to stop questioning."
+類似度: 50/100
+
+書き換え4: "What's your name?"
+類似度: 5/100
+
+書き換え1と書き換え2は原文に非常に近く、意味や構造がほぼ同じです。書き換え3は原文とは逆の意味になっており、書き換え4は原文とは全く関係のない別の質問です。
+
+
+
+☆csv形式って扱えるのか実験。
+　csvで受け取るのは何の問題もなさそうだけど、csvで返してはくれていない。
+　別のAPIでうまくやる必要がありそう？
+
+[設問]
+,区切りのcsv形式で情報を渡します。
+第1列は原文、第2列はその書き換えです。
+原文と書き換えがどの程度近いかを100点満点で評価して、第3列に付け加えて返してください。
+
+[返事]
+了解しました。CSV形式で情報を受け取り、原文と書き換えの類似度を評価して返します。
+お手数ですが、CSVファイルをアップロードしてください。または、テキスト形式でデータを入力していただくこともできます。
+
+[質問]
+"The important thing is not to stop questioning.","Don't stop questioning. It's the important thing. "
+
+[回答]
+以下は、与えられた原文と書き換えの類似度を評価した結果です。
+
+原文: The important thing is not to stop questioning.
+書き換え: Don't stop questioning. It's the important thing.
+
+類似度評価: 95
+
+類似度の評価は、100点満点で行われており、この場合は95点となります。
+書き換え文は、原文の意味を正確に伝えつつ、文体や語順が若干変更されていますが、主要なコンテンツは保持されています。
+
+
+
+
+☆csv形式って扱えるのか実験その2。
+　difflib.SequenceMatcherを使うPythonのコードが返ってきた。動くか知らんけど賢い。
+　参考：https://www.y-shinno.com/python-difflib/
+
+[設問]
+,区切りのcsv形式で情報を渡します。
+第1列は原文、第2列はその書き換えです。
+原文と書き換えがどの程度近いかを100点満点で評価して、その得点の数字だけを返してください。
+
+[回答]
+理解しました。CSV形式で渡された情報を解析し、原文と書き換えの類似度を評価して得点を返します。以下にサンプルコードを示します。
+
+-------------------------------------------------------------------------
+import csv
+from difflib import SequenceMatcher
+
+def calculate_similarity_score(original, rewritten):
+    similarity = SequenceMatcher(None, original, rewritten).ratio()
+    score = round(similarity * 100)
+    return score
+
+def evaluate_similarity(csv_data):
+    scores = []
+    for row in csv_data:
+        original = row[0]
+        rewritten = row[1]
+        score = calculate_similarity_score(original, rewritten)
+        scores.append(score)
+    return scores
+
+# CSVデータの読み込み
+csv_data = []
+with open('data.csv', 'r', encoding='utf-8') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        csv_data.append(row)
+
+# 類似度の評価
+similarity_scores = evaluate_similarity(csv_data)
+
+# 得点の数字だけを返す
+score_numbers = [score for score in similarity_scores]
+
+print(score_numbers)
+-------------------------------------------------------------------------
+
+上記のコードは、CSVファイル data.csv から情報を読み込み、原文と書き換えの類似度を評価して得点の数字のリストを返します。
+コードを実行する前に、CSVファイル data.csv を作成し、データを正しいフォーマットで入力してください。
+
+なお、このコードは類似度の評価に SequenceMatcher クラスを使用しています。
+このアルゴリズムは文字列のシーケンスのマッチングを行い、0から1の範囲で類似度を返します。
+得られた類似度は100点満点にスケーリングされ、最も類似している場合には100点が得られます。
+
+
+
+☆翻訳してもらうテスト。
+　特に指定しないと、発音もくっつけてくれるっぽい。
+　Simplified ChineseとTraditional Chinese、FrenchとAmerican Frenchも区別してくれるっぽい。
+
+[質問1]
+Please translate the following English into Japanese.
+"The important thing is not to stop questioning."
+
+[回答1]
+重要なことは、質問をやめないことです。 (Jūyōna koto wa, shitsumon o yamenai koto desu.)
+
+[質問2]
+Please translate the following English into Japanese.
+Please only answer with translated results.
+"The important thing is not to stop questioning."
+
+[回答2]
+重要なことは、質問をやめないことです。
